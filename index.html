@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>ToDo List</h1>
+        <div class="input-container">
+            <input type="text" id="task" placeholder="Add a task...">
+            <br>
+            <br>
+            <button id="addTask">Add</button>
+        </div>
+        <ul id="taskList"></ul>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const taskInput = document.getElementById('task');
+        const addTaskButton = document.getElementById('addTask');
+        const taskList = document.getElementById('taskList');
+
+        addTaskButton.addEventListener('click', function () {
+            const taskText = taskInput.value;
+            if (taskText !== '') {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                ${taskText}
+                <div>
+                    <button class="delete">Delete</button>
+                    <button class="edit">Edit</button>
+                </div>
+                
+            `;
+                taskList.appendChild(li);
+                taskInput.value = '';
+                addDeleteEditEventListeners(li);
+            }
+        });
+
+        function addDeleteEditEventListeners(li) {
+            const deleteButton = li.querySelector('.delete');
+            const editButton = li.querySelector('.edit');
+
+            deleteButton.addEventListener('click', function () {
+                li.remove();
+            });
+
+            editButton.addEventListener('click', function () {
+                const editedText = prompt('Edit task:', li.firstChild.textContent);
+                if (editedText !== null) {
+                    li.firstChild.textContent = editedText;
+                }
+            });
+        }
+    });
+
+</script>
